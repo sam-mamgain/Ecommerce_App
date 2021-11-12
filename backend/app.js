@@ -4,14 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+let bodyParser = require('body-parser')
 
 var productsRouter = require('./routes/products');
-var usersRouter = require('./routes/users');
+var ordersRouter = require('./routes/orders');
 
 var app = express();
+app.use(bodyParser.json());
 
 app.use('/api/products', productsRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/orders', ordersRouter);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
