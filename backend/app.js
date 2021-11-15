@@ -12,9 +12,6 @@ var ordersRouter = require('./routes/orders');
 var app = express();
 app.use(bodyParser.json());
 
-app.use('/api/products', productsRouter);
-app.use('/api/orders', ordersRouter);
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -24,6 +21,9 @@ app.use(cors({
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
   allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-with, Accept'
 }))
+
+app.use('/api/products', productsRouter);
+app.use('/api/orders', ordersRouter);
 
 app.use(logger('dev'));
 app.use(express.json());
