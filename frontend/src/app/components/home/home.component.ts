@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductModelServer } from 'src/app/models/product.model';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { ProductService } from 'src/app/services/product.service';
 export class HomeComponent implements OnInit {
 
   products: ProductModelServer[] = [];
-  constructor(private productService: ProductService, private rotuer: Router) { }
+  constructor(private productService: ProductService, private rotuer: Router, private cartService: CartService) { }
 
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe(prods => {
@@ -23,6 +24,9 @@ export class HomeComponent implements OnInit {
     this.rotuer.navigate(['/product', id]).then();
   }
 
+  addToCart(id: number) {
+    this.cartService.addProductToCart(id)
+  }
   
 
 }
