@@ -198,12 +198,15 @@ export class CartService {
       localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
       this.cartData$.next({ ...this.cartDataServer });
     } else {
-      data.numInCart--;
 
-      if (data.numInCart < 1) {
-        //  Todo delete the product from cart
-        this.cartData$.next({ ...this.cartDataServer });
+      if (data.numInCart-1 < 1) {
+        let check = this.deleteProductFromCart(index);
+        if (check) {
+          data.numInCart--;
+          this.cartData$.next({ ...this.cartDataServer });
+        }
       } else {
+        data.numInCart--;
         this.cartData$.next({ ...this.cartDataServer });
         this.cartDataClient.prodData[index].incart = data.numInCart;
         this.calculateTotal();
@@ -236,6 +239,8 @@ export class CartService {
       localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
     }
 
+    console.log(this.cartDataServer);
+
     if (this.cartDataServer.total === 0) {
       this.cartDataServer = {
         total: 0,
@@ -246,9 +251,10 @@ export class CartService {
           },
         ],
       };
+      return true;
     } else {
       // if user click the cancel button
-      return;
+      return false;
     }
   }
 
@@ -305,6 +311,7 @@ export class CartService {
                         'cart',
                         JSON.stringify(this.cartDataClient)
                       );
+                      this.cartData$.next({...this.cartDataServer});
                     });
                 }
               });

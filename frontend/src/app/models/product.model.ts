@@ -11,5 +11,5 @@ export interface ProductModelServer {
 
 export interface ServerResponse {
   count: number;
-  products: ProductModelServer[]
+  products: ProductModelServer[];
 }

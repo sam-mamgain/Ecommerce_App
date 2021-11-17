@@ -51,7 +51,7 @@ router.get('/:orderId', (req, res) => {
         on: 'u.id = o.user_id'
       }
     ])
-    .withFields(['o.id', 'p.title as name', 'p.description', 'p.price', 'u.username'])
+    .withFields(['o.id', 'p.title as name', 'p.description', 'p.price', 'p.image', 'od.quantity as quantityOrdered', 'u.username'])
     .filter({ 'o.id': orderId })
     .getAll()
     .then(orders => {
@@ -78,7 +78,7 @@ router.post('/new', (req, res) => {
         if (newOrderId.insertId > 0) {
           products.forEach(async (p) => {
             let data = await database.table('products').filter({ id: p.id }).withFields(['quantity']).get();
-            let inCart = p.inCart;
+            let inCart = p.incart;
 
             if (data.quantity > 0) {
               data.quantity = data.quantity - inCart;
